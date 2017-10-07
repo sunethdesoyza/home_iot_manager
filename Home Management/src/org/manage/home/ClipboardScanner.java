@@ -19,12 +19,14 @@ public class ClipboardScanner extends Observable implements Runnable, ClipboardO
 		this.url = "";
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		clipboard = toolkit.getSystemClipboard();
+
 	}
 
 	@Override
 	public void run() {
 		try {
 			while (true) {
+
 				url = (String) clipboard.getData(DataFlavor.stringFlavor);
 				if (url.startsWith("http")) {
 					clipboard.setContents(new StringSelection(""), this);

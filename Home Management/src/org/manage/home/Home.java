@@ -65,6 +65,7 @@ public class Home implements ConnectionListener, TransportListener, Observer {
 	@SuppressWarnings("unused")
 	private ClipboardScanner clipboardScanner;
 	private static Home window;
+	private JTextField txtPrefix;
 
 	/**
 	 * Launch the application.
@@ -179,7 +180,7 @@ public class Home implements ConnectionListener, TransportListener, Observer {
 				textFileName.setText(textFileName.getText().replaceAll(" ", "_"));
 			}
 		});
-		textFileName.setBounds(141, 72, 398, 20);
+		textFileName.setBounds(285, 72, 254, 20);
 		panel_2.add(textFileName);
 		textFileName.setColumns(10);
 
@@ -213,7 +214,7 @@ public class Home implements ConnectionListener, TransportListener, Observer {
 				String command = "1";
 				String videoUrl = textVideo.getText();
 				String imageUrl = textImage.getText();
-				String fileName = textFileName.getText();
+				String fileName = txtPrefix + "_" + textFileName.getText();
 				String quality = textQuality.getText();
 				Transport trans = null;
 				try {
@@ -265,6 +266,11 @@ public class Home implements ConnectionListener, TransportListener, Observer {
 		lblResponse = new JLabel("Details");
 		lblResponse.setBounds(10, 162, 646, 97);
 		panel_2.add(lblResponse);
+		
+		txtPrefix = new JTextField();
+		txtPrefix.setBounds(141, 73, 136, 19);
+		panel_2.add(txtPrefix);
+		txtPrefix.setColumns(10);
 
 		JPanel panel_1 = new JPanel();
 		tabbedPane.addTab("General", null, panel_1, null);
@@ -358,7 +364,7 @@ public class Home implements ConnectionListener, TransportListener, Observer {
 			} else if (o instanceof VideoInformationExtractor) {
 				textArea.setText(((VideoInformationExtractor) o).getOutput().toString());
 			} else if (o instanceof FileNameExtractor) {
-				textFileName.setText(((FileNameExtractor) o).getOutput().toString().replaceAll("'", "").trim().replaceAll(" ", "_"));
+				textFileName.setText(removeSpecialChars(((FileNameExtractor) o).getOutput().toString().trim().replaceAll(" ", "_")));
 			}
 		}
 		
@@ -371,5 +377,14 @@ public class Home implements ConnectionListener, TransportListener, Observer {
 		} catch (IOException e) {
 			textArea.setText(e.getMessage());
 		}
+	}
+	
+	private String removeSpecialChars(String name){
+		String specialChars[] = {"&", ";", "|", "\\*", "\\?", "\'", "\"", "'", "\\[", "\\]", "\\(", "\\)", "$", "<", ">", "\\{", "\\}", "#", "/", "!", "~"};
+		for(String specialStr : specialChars){
+
+			name = name.replaceAll(specialStr, "");
+		}
+		return name;
 	}
 }
