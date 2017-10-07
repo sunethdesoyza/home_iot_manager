@@ -214,7 +214,7 @@ public class Home implements ConnectionListener, TransportListener, Observer {
 				String command = "1";
 				String videoUrl = textVideo.getText();
 				String imageUrl = textImage.getText();
-				String fileName = txtPrefix + "_" + textFileName.getText();
+				String fileName = txtPrefix.getText() + "_" + textFileName.getText();
 				String quality = textQuality.getText();
 				Transport trans = null;
 				try {
@@ -243,6 +243,7 @@ public class Home implements ConnectionListener, TransportListener, Observer {
 					textImage.setText("");
 					textFileName.setText("");
 					textQuality.setText("");
+					textArea.setText("Queued:" +  fileName);
 
 				} catch (NoSuchProviderException e) {
 					// TODO Auto-generated catch block
